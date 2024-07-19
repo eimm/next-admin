@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import { ClerkProvider, SignedIn, UserButton } from "@clerk/nextjs";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Button } from "@/components/ui/button";
+import StoreModal from "@/components/modals/StoreModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,9 +17,22 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
+  <ClerkProvider>
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <header>
+          <SignedIn>
+            <Button>
+              <UserButton />
+            </Button>
+          </SignedIn>
+        </header>
+        <main>
+          <StoreModal />
+          {children}
+        </main>
+      </body>
     </html>
-  );
+    ;
+  </ClerkProvider>;
 }
