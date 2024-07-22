@@ -4,7 +4,11 @@ import prismadb from "@/lib/prismadb";
 //   params: { storeId: string };
 // }
 
-export default async function DashboardPage(params: { storeId: string }) {
+export default async function DashboardPage({
+  params,
+}: {
+  params: { storeId: string };
+}) {
   const store = await prismadb.store.findFirst({
     where: {
       id: params.storeId,
