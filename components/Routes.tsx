@@ -18,6 +18,11 @@ export default function Routes({
       active: pathName === `/${params.storeId}`,
     },
     {
+      href: `/${params.storeId}/billboards`,
+      label: "billboards",
+      active: pathName === `/${params.storeId}/billboards`,
+    },
+    {
       href: `/${params.storeId}/settings`,
       label: "settings",
       active: pathName === `/${params.storeId}/settings`,
