@@ -5,6 +5,9 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Store } from "@prisma/client";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useParams, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import Heading from "@/components/ui/heading";
@@ -19,6 +22,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import AlertModal from "@/components/modals/AlertModal";
+import { ApiAlert } from "@/components/ApiAlert";
+import { useOrigin } from "@/hooks/useOrigin";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -27,22 +33,54 @@ const formSchema = z.object({
 type SettingsFormSchema = z.infer<typeof formSchema>;
 
 export default function SettingsForm({ initialData }: { initialData: Store }) {
+  const params = useParams();
+  const router = useRouter();
+  const origin = useOrigin();
   const form = useForm<SettingsFormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData,
   });
 
   const [isOpen, setOpen] = useState(false);
-  const [isLoading, SetLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const onSubmit = async (data: SettingsFormSchema) => {
-    console.log(data);
+    try {
+      setLoading(true);
+      await axios.patch(`/api/stores/${params.storeId}`, data);
+      router.refresh();
+      toast.success("Saved!");
+    } catch (e) {
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const onDelete = async () => {
+    try {
+      setLoading(true);
+      await axios.delete(`/api/stores/${params.storeId}`);
+      router.refresh();
+      toast.success("Deleted!");
+      router.push("/");
+    } catch (e) {
+      toast.error("Make sure to delete contents of the store first");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <div className="flex items-center justify-between ">
         <Heading title="Settings" description="Manage store settings" />
-        <Button variant="destructive" size="icon" onClick={() => {}}>
+        <Button
+          disabled={isLoading}
+          variant="destructive"
+          size="icon"
+          onClick={() => setOpen(true)}
+        >
           <TrashIcon className="h-4 w-4" />
         </Button>
       </div>
@@ -72,6 +110,17 @@ export default function SettingsForm({ initialData }: { initialData: Store }) {
           </Button>
         </form>
       </Form>
+      <ApiAlert
+        description={`${origin}/api/${params.storeId}`}
+        title="NEXT_PUBLIC_API_URL"
+        variant="public"
+      />
+      <AlertModal
+        isOpen={isOpen}
+        loading={isLoading}
+        onClose={() => setOpen(false)}
+        onConfirm={onDelete}
+      />
     </>
   );
 }

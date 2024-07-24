@@ -13,6 +13,11 @@ export default function Routes({
 
   const routes = [
     {
+      href: `/${params.storeId}`,
+      label: "dashboard",
+      active: pathName === `/${params.storeId}`,
+    },
+    {
       href: `/${params.storeId}/settings`,
       label: "settings",
       active: pathName === `/${params.storeId}/settings`,
