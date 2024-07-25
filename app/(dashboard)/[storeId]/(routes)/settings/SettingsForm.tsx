@@ -110,6 +110,7 @@ export default function SettingsForm({ initialData }: { initialData: Store }) {
           </Button>
         </form>
       </Form>
+      <Separator />
       <ApiAlert
         description={`${origin}/api/${params.storeId}`}
         title="NEXT_PUBLIC_API_URL"
