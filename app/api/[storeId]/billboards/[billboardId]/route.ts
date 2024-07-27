@@ -7,25 +7,11 @@ export async function GET(
   { params }: { params: { storeId: string; billboardId: string } }
 ) {
   try {
-    const { userId } = auth();
-    if (!userId) {
-      return new NextResponse("Unathorized", { status: 401 });
-    }
     if (!params.billboardId) {
       return new NextResponse("billboardId is required", { status: 400 });
     }
 
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    });
-
-    if (!storeByUserId) {
-      return new NextResponse("Unathorized", { status: 401 });
-    }
-    const billboard = await prismadb.billboard.deleteMany({
+    const billboard = await prismadb.billboard.findFirst({
       where: {
         id: params.billboardId,
       },
@@ -33,7 +19,7 @@ export async function GET(
 
     return NextResponse.json(billboard);
   } catch (e) {
-    console.log("[BILLBOARD_DELETE]", e);
+    console.log("[BILLBOARD_GET]", e);
     return new NextResponse("Internal error", { status: 500 });
   }
 }
