@@ -40,7 +40,7 @@ export default function StoresSelect({
   items = [],
 }: ComponentProps) {
   const storeModal = useStoreModal();
-  const params = useParams();
+  const params = useParams<{ storeId: string }>();
   const router = useRouter();
   const [isOpen, setOpen] = useState(false);
 

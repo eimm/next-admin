@@ -9,7 +9,7 @@ export default function Routes({
   ...props
 }: React.HtmlHTMLAttributes<HTMLElement>) {
   const pathName = usePathname();
-  const params = useParams();
+  const params = useParams<{ storeId: string }>();
 
   const routes = [
     {
@@ -21,6 +21,11 @@ export default function Routes({
       href: `/${params.storeId}/billboards`,
       label: "billboards",
       active: pathName === `/${params.storeId}/billboards`,
+    },
+    {
+      href: `/${params.storeId}/categories`,
+      label: "categories",
+      active: pathName === `/${params.storeId}/categories`,
     },
     {
       href: `/${params.storeId}/settings`,

@@ -18,13 +18,13 @@ import {
 import { Button } from "@/components/ui/button";
 import AlertModal from "@/components/modals/AlertModal";
 
-import { BillboardColumn } from "./Columns";
+import { CategoryColumn } from "./Columns";
 
 interface CellactionProps {
-  billboard: BillboardColumn;
+  category: CategoryColumn;
 }
 
-export const CellAction: FC<CellactionProps> = ({ billboard }) => {
+export const CellAction: FC<CellactionProps> = ({ category }) => {
   const router = useRouter();
   const params = useParams<{ storeId: string }>();
   const [isOpen, setOpen] = useState(false);
@@ -36,11 +36,11 @@ export const CellAction: FC<CellactionProps> = ({ billboard }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/billboards/${billboard.id}`);
+      await axios.delete(`/api/${params.storeId}/categories/${category.id}`);
       router.refresh();
       toast.success("Deleted!");
     } catch (e) {
-      toast.error("Make sure to delete contents of the billboard first");
+      toast.error("Make sure to delete products of the category first");
     } finally {
       setLoading(false);
     }
@@ -58,13 +58,13 @@ export const CellAction: FC<CellactionProps> = ({ billboard }) => {
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
             onClick={() =>
-              router.push(`/${params.storeId}/billboards/${billboard.id}`)
+              router.push(`/${params.storeId}/categories/${category.id}`)
             }
           >
             <MagicWandIcon className="mr-2 h-4 w-4" />
             Edit
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => copy(billboard.id)}>
+          <DropdownMenuItem onClick={() => copy(category.id)}>
             <ClipboardCopyIcon className="mr-2 h-4 w-4" />
             Copy Id
           </DropdownMenuItem>

@@ -33,7 +33,7 @@ const formSchema = z.object({
 type SettingsFormSchema = z.infer<typeof formSchema>;
 
 export default function SettingsForm({ initialData }: { initialData: Store }) {
-  const params = useParams();
+  const params = useParams<{ storeId: string }>();
   const router = useRouter();
   const origin = useOrigin();
   const form = useForm<SettingsFormSchema>({
