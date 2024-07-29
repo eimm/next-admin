@@ -3,14 +3,10 @@ import { format } from "date-fns";
 import prismadb from "@/lib/prismadb";
 import { VariantColumn } from "./Columns";
 import Variants from "./Variants";
+import { getCachedVariants } from "@/app/api/[storeId]/variants/utils";
 
 const VariantsPage = async ({ params }: { params: { storeId: string } }) => {
-  const variants = await prismadb.variant.findMany({
-    where: { storeId: params.storeId },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+  const variants = await getCachedVariants(params.storeId);
 
   const formatedVariants: VariantColumn[] = variants.map((item) => ({
     id: item.id,

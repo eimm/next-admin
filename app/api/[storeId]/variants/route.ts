@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import prismadb from "@/lib/prismadb";
+import { getCachedVariants } from "./utils";
+import { revalidateTag } from "next/cache";
+import { getCachedStore } from "@/app/api/stores/utils";
 
 export async function POST(
   req: Request,
@@ -23,12 +26,7 @@ export async function POST(
       return new NextResponse("storeId is required", { status: 400 });
     }
 
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    });
+    const storeByUserId = await getCachedStore(userId, params.storeId);
 
     if (!storeByUserId) {
       return new NextResponse("Unathorized", { status: 401 });
@@ -40,6 +38,7 @@ export async function POST(
         storeId: params.storeId,
       },
     });
+    revalidateTag(`Variants-${params.storeId}`);
     return NextResponse.json(variant);
   } catch (e) {
     console.log("variants post", e);
@@ -55,11 +54,7 @@ export async function GET(
     if (!params.storeId) {
       return new NextResponse("storeId is required", { status: 400 });
     }
-    const variants = await prismadb.variant.findMany({
-      where: {
-        storeId: params.storeId,
-      },
-    });
+    const variants = await getCachedVariants(params.storeId);
     return NextResponse.json(variants);
   } catch (e) {
     console.log("variants get", e);

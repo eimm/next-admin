@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 import SettingsForm from "./SettingsForm";
+import { getCachedStore } from "@/app/api/stores/utils";
 
 interface SettingsPageProps {
   params: {
@@ -14,12 +15,7 @@ export default async function SettingsPage({ params }: SettingsPageProps) {
   const { userId } = auth();
   if (!userId) return null;
 
-  const store = await prismadb.store.findFirst({
-    where: {
-      id: params.storeId,
-      userId,
-    },
-  });
+  const store = await getCachedStore(userId, params.storeId);
 
   if (!store) {
     redirect("/");

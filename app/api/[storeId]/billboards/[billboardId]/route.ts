@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import prismadb from "@/lib/prismadb";
+import { getCachedBillboard } from "../utils";
+import { revalidateTag } from "next/cache";
+import { getCachedStore } from "@/app/api/stores/utils";
 
 export async function GET(
   req: Request,
@@ -11,11 +14,7 @@ export async function GET(
       return new NextResponse("billboardId is required", { status: 400 });
     }
 
-    const billboard = await prismadb.billboard.findFirst({
-      where: {
-        id: params.billboardId,
-      },
-    });
+    const billboard = getCachedBillboard(params.billboardId);
 
     return NextResponse.json(billboard);
   } catch (e) {
@@ -45,14 +44,9 @@ export async function PATCH(
       return new NextResponse("billboardId is required", { status: 400 });
     }
 
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    });
+    const store = await getCachedStore(userId, params.storeId);
 
-    if (!storeByUserId) {
+    if (!store) {
       return new NextResponse("Unathorized", { status: 401 });
     }
 
@@ -65,6 +59,8 @@ export async function PATCH(
         imageUrl,
       },
     });
+    revalidateTag(`Billboards-${params.storeId}`);
+    revalidateTag(`Billboard-${params.billboardId}`);
     return NextResponse.json(billboard);
   } catch (e) {
     console.log("billboards patch", e);
@@ -85,14 +81,9 @@ export async function DELETE(
       return new NextResponse("billboardId is required", { status: 400 });
     }
 
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    });
+    const store = await getCachedStore(userId, params.storeId);
 
-    if (!storeByUserId) {
+    if (!store) {
       return new NextResponse("Unathorized", { status: 401 });
     }
     const billboard = await prismadb.billboard.deleteMany({
@@ -100,7 +91,8 @@ export async function DELETE(
         id: params.billboardId,
       },
     });
-
+    revalidateTag(`Billboards-${params.storeId}`);
+    revalidateTag(`Billboard-${params.billboardId}`);
     return NextResponse.json(billboard);
   } catch (e) {
     console.log("[BILLBOARD_DELETE]", e);

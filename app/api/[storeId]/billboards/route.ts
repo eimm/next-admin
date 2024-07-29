@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import prismadb from "@/lib/prismadb";
+import { getCachedBillboards } from "./utils";
+import { revalidateTag } from "next/cache";
+import { getCachedStore } from "@/app/api/stores/utils";
 
 export async function POST(
   req: Request,
@@ -23,14 +26,9 @@ export async function POST(
       return new NextResponse("storeId is required", { status: 400 });
     }
 
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    });
+    const store = await getCachedStore(userId, params.storeId);
 
-    if (!storeByUserId) {
+    if (!store) {
       return new NextResponse("Unathorized", { status: 401 });
     }
     const billboard = await prismadb.billboard.create({
@@ -40,6 +38,7 @@ export async function POST(
         storeId: params.storeId,
       },
     });
+    revalidateTag(`Billboards-${params.storeId}`);
     return NextResponse.json(billboard);
   } catch (e) {
     console.log("billboards post", e);
@@ -55,11 +54,7 @@ export async function GET(
     if (!params.storeId) {
       return new NextResponse("storeId is required", { status: 400 });
     }
-    const billboards = await prismadb.billboard.findMany({
-      where: {
-        storeId: params.storeId,
-      },
-    });
+    const billboards = await getCachedBillboards(params.storeId);
     return NextResponse.json(billboards);
   } catch (e) {
     console.log("billboards get", e);

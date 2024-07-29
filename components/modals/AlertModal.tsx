@@ -29,7 +29,14 @@ const AlertModal: FC<AlertModalProps> = ({
         <Button disabled={loading} variant="secondary" onClick={onClose}>
           Cancel
         </Button>
-        <Button disabled={loading} variant="destructive" onClick={onConfirm}>
+        <Button
+          disabled={loading}
+          variant="destructive"
+          onClick={() => {
+            onConfirm();
+            onClose();
+          }}
+        >
           Delete
         </Button>
       </div>

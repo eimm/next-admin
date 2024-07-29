@@ -2,16 +2,11 @@ import React, { FC } from "react";
 import { format } from "date-fns";
 import prismadb from "@/lib/prismadb";
 import { BillboardColumn } from "./Columns";
+import { getCachedBillboards } from "@/app/api/[storeId]/billboards/utils";
 import Billboards from "./Billboards";
 
 const BillboardsPage = async ({ params }: { params: { storeId: string } }) => {
-  const billboards = await prismadb.billboard.findMany({
-    where: { storeId: params.storeId },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
+  const billboards = await getCachedBillboards(params.storeId);
   const formatedBillboards: BillboardColumn[] = billboards.map((item) => ({
     id: item.id,
     createdAt: format(item.createdAt, "d MMM yyyy"),

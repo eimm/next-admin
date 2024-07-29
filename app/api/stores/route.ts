@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import prismadb from "@/lib/prismadb";
+import { revalidateTag } from "next/cache";
 
 export async function POST(req: Request) {
   try {
@@ -19,6 +20,7 @@ export async function POST(req: Request) {
         userId,
       },
     });
+    revalidateTag(`Stores-${userId}`);
     return NextResponse.json(store);
   } catch (e) {
     console.log("stores post", e);

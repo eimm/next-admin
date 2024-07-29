@@ -1,5 +1,6 @@
 import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs/server";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function PATCH(
@@ -30,6 +31,8 @@ export async function PATCH(
       },
     });
 
+    revalidateTag(`Stores-${userId}`);
+    revalidateTag(`Store-${userId}-${params.storeId}`);
     return NextResponse.json(store);
   } catch (e) {
     console.log("[STORE_PATCH]", e);
@@ -56,6 +59,9 @@ export async function DELETE(
         userId,
       },
     });
+
+    revalidateTag(`Stores-${userId}`);
+    revalidateTag(`Store-${userId}-${params.storeId}`);
 
     return NextResponse.json(store);
   } catch (e) {

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import prismadb from "@/lib/prismadb";
+import { revalidateTag } from "next/cache";
+import { getCachedStore } from "@/app/api/stores/utils";
 
 export async function GET(
   req: Request,
@@ -45,12 +47,7 @@ export async function PATCH(
       return new NextResponse("categoryId is required", { status: 400 });
     }
 
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    });
+    const storeByUserId = await getCachedStore(userId, params.storeId);
 
     if (!storeByUserId) {
       return new NextResponse("Unathorized", { status: 401 });
@@ -65,6 +62,8 @@ export async function PATCH(
         billboardId,
       },
     });
+    revalidateTag(`Categories-${params.storeId}`);
+    revalidateTag(`Category-${params.categoryId}`);
     return NextResponse.json(category);
   } catch (e) {
     console.log("categories patch", e);
@@ -85,12 +84,7 @@ export async function DELETE(
       return new NextResponse("categoryId is required", { status: 400 });
     }
 
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    });
+    const storeByUserId = await getCachedStore(userId, params.storeId);
 
     if (!storeByUserId) {
       return new NextResponse("Unathorized", { status: 401 });
@@ -100,6 +94,9 @@ export async function DELETE(
         id: params.categoryId,
       },
     });
+
+    revalidateTag(`Categories-${params.storeId}`);
+    revalidateTag(`Category-${params.categoryId}`);
 
     return NextResponse.json(category);
   } catch (e) {

@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import prismadb from "@/lib/prismadb";
+import { revalidateTag } from "next/cache";
+import { getCachedVariant } from "../utils";
+import { getCachedStore } from "@/app/api/stores/utils";
 
 export async function GET(
   req: Request,
@@ -11,11 +14,7 @@ export async function GET(
       return new NextResponse("variantId is required", { status: 400 });
     }
 
-    const variant = await prismadb.variant.findFirst({
-      where: {
-        id: params.variantId,
-      },
-    });
+    const variant = await getCachedVariant(params.variantId);
 
     return NextResponse.json(variant);
   } catch (e) {
@@ -45,12 +44,7 @@ export async function PATCH(
       return new NextResponse("variantId is required", { status: 400 });
     }
 
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    });
+    const storeByUserId = await getCachedStore(userId, params.storeId);
 
     if (!storeByUserId) {
       return new NextResponse("Unathorized", { status: 401 });
@@ -65,6 +59,8 @@ export async function PATCH(
         value,
       },
     });
+    revalidateTag(`Variants-${params.storeId}`);
+    revalidateTag(`Variant-${params.variantId}`);
     return NextResponse.json(variant);
   } catch (e) {
     console.log("variant patch", e);
@@ -85,13 +81,7 @@ export async function DELETE(
       return new NextResponse("variantId is required", { status: 400 });
     }
 
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    });
-
+    const storeByUserId = await getCachedStore(userId, params.storeId);
     if (!storeByUserId) {
       return new NextResponse("Unathorized", { status: 401 });
     }
@@ -101,6 +91,8 @@ export async function DELETE(
       },
     });
 
+    revalidateTag(`Variants-${params.storeId}`);
+    revalidateTag(`Variant-${params.variantId}`);
     return NextResponse.json(variant);
   } catch (e) {
     console.log("variant delete", e);
