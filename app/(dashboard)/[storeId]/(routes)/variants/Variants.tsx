@@ -5,16 +5,16 @@ import Heading from "@/components/ui/heading";
 import { PlusIcon } from "@radix-ui/react-icons";
 import React, { FC } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { CategoryColumn, columns } from "./Columns";
+import { VariantColumn, columns } from "./Columns";
 import { DataTable } from "@/components/DataTable";
 import { Separator } from "@/components/ui/separator";
 import ApiList from "@/components/ApiList";
 
-interface CategoriesProps {
-  categories: CategoryColumn[];
+interface VariantsProps {
+  variants: VariantColumn[];
 }
 
-const Categories: FC<CategoriesProps> = ({ categories }) => {
+const Variants: FC<VariantsProps> = ({ variants }) => {
   const router = useRouter();
   const params = useParams<{ storeId: string }>();
 
@@ -22,23 +22,21 @@ const Categories: FC<CategoriesProps> = ({ categories }) => {
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title={`Categories (${categories.length})`}
-          description="Your Categories"
+          title={`Variants (${variants.length})`}
+          description="Your variants"
         />
-        <Button
-          onClick={() => router.push(`/${params.storeId}/categories/new`)}
-        >
+        <Button onClick={() => router.push(`/${params.storeId}/variants/new`)}>
           <PlusIcon className="mr-2 h-4 w-4" />
           Add
         </Button>
       </div>
       <Separator />
-      <DataTable columns={columns} data={categories} filterKey="name" />
-      <Heading description="API routes for categories data" title="api" />
+      <DataTable columns={columns} data={variants} filterKey="name" />
+      <Heading description="API routes for variants data" title="api" />
       <Separator />
-      <ApiList entityName="categories" entityIdName="categoryId" />
+      <ApiList entityName="variants" entityIdName="variantId" />
     </>
   );
 };
 
-export default Categories;
+export default Variants;

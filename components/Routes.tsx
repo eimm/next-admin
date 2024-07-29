@@ -28,6 +28,11 @@ export default function Routes({
       active: pathName === `/${params.storeId}/categories`,
     },
     {
+      href: `/${params.storeId}/variants`,
+      label: "variants",
+      active: pathName === `/${params.storeId}/variants`,
+    },
+    {
       href: `/${params.storeId}/settings`,
       label: "settings",
       active: pathName === `/${params.storeId}/settings`,
