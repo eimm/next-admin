@@ -33,6 +33,11 @@ export default function Routes({
       active: pathName === `/${params.storeId}/variants`,
     },
     {
+      href: `/${params.storeId}/colours`,
+      label: "colours",
+      active: pathName === `/${params.storeId}/colours`,
+    },
+    {
       href: `/${params.storeId}/settings`,
       label: "settings",
       active: pathName === `/${params.storeId}/settings`,

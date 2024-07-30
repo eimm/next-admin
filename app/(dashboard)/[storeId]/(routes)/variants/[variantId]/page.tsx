@@ -1,4 +1,3 @@
-import prismadb from "@/lib/prismadb";
 import VariantForm from "./VariantForm";
 import { getCachedVariant } from "@/app/api/[storeId]/variants/utils";
 
