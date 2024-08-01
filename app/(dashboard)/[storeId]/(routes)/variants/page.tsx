@@ -4,9 +4,12 @@ import prismadb from "@/lib/prismadb";
 import { VariantColumn } from "./Columns";
 import Variants from "./Variants";
 import { getCachedVariants } from "@/app/api/[storeId]/variants/utils";
+import { ApiKeys } from "@/app/api/utils";
 
 const VariantsPage = async ({ params }: { params: { storeId: string } }) => {
-  const variants = await getCachedVariants(params.storeId);
+  const variants = await getCachedVariants({
+    keys: new Map([[ApiKeys.StoreId, params.storeId]]),
+  });
 
   const formatedVariants: VariantColumn[] = variants.map((item) => ({
     id: item.id,

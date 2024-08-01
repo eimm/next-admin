@@ -3,9 +3,12 @@ import { format } from "date-fns";
 import { CategoryColumn } from "./Columns";
 import Categories from "./Categories";
 import { getCachedCategories } from "@/app/api/[storeId]/categories/utils";
+import { ApiKeys } from "@/app/api/utils";
 
 const CategoriesPage = async ({ params }: { params: { storeId: string } }) => {
-  const categories = await getCachedCategories(params.storeId);
+  const categories = await getCachedCategories({
+    keys: new Map([[ApiKeys.StoreId, params.storeId]]),
+  });
 
   const formatedCategories: CategoryColumn[] = categories.map((item) => ({
     id: item.id,

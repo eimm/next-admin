@@ -1,9 +1,9 @@
 import prismadb from "@/lib/prismadb";
-import { getCached } from "@/app/api/utils";
+import { ApiKeys, getCached, GetCachedOptions } from "@/app/api/utils";
 
-const getCategories = async (storeId: string) =>
+const getCategories = async (options: GetCachedOptions) =>
   await prismadb.category.findMany({
-    where: { storeId: storeId },
+    where: { storeId: options.keys.get(ApiKeys.StoreId) },
     include: {
       billboard: true,
     },
@@ -12,15 +12,15 @@ const getCategories = async (storeId: string) =>
     },
   });
 
-const getCategory = async (categoryId: string) =>
+const getCategory = async (options: GetCachedOptions) =>
   await prismadb.category.findFirst({
     where: {
-      id: categoryId,
+      id: options.keys.get(ApiKeys.CategoryId),
     },
   });
 
-export const getCachedCategory = async (variantId: string) =>
-  getCached(getCategory, "Category", variantId);
+export const getCachedCategory = async (options: GetCachedOptions) =>
+  getCached(getCategory, options, "Category");
 
-export const getCachedCategories = async (storeId: string) =>
-  getCached(getCategories, "Categories", storeId);
+export const getCachedCategories = async (options: GetCachedOptions) =>
+  getCached(getCategories, options, "Categories");

@@ -1,29 +1,29 @@
 import prismadb from "@/lib/prismadb";
-import { getCached } from "@/app/api/utils";
+import { ApiKeys, getCached, GetCachedOptions } from "@/app/api/utils";
 
-const getStores = async (userId: string) =>
+const getStores = async (options: GetCachedOptions) =>
   await prismadb.store.findMany({
     where: {
-      userId,
+      userId: options.keys.get(ApiKeys.UserId),
     },
   });
 
-const getStore = async (userId: string, storeId?: string) =>
-  storeId
+const getStore = async (options: GetCachedOptions) =>
+  options.keys.has(ApiKeys.StoreId)
     ? await prismadb.store.findFirst({
         where: {
-          id: storeId,
-          userId,
+          id: options.keys.get(ApiKeys.StoreId),
+          userId: options.keys.get(ApiKeys.UserId),
         },
       })
     : await prismadb.store.findFirst({
         where: {
-          userId,
+          userId: options.keys.get(ApiKeys.UserId),
         },
       });
 
-export const getCachedStore = async (userId: string, storeId?: string) =>
-  getCached(getStore, "Store", userId, storeId);
+export const getCachedStore = async (options: GetCachedOptions) =>
+  getCached(getStore, options, "Store");
 
-export const getCachedStores = async (userId: string) =>
-  getCached(getStores, "Stores", userId);
+export const getCachedStores = async (options: GetCachedOptions) =>
+  getCached(getStores, options, "Stores");

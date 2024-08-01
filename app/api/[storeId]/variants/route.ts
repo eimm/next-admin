@@ -4,6 +4,7 @@ import prismadb from "@/lib/prismadb";
 import { getCachedVariants } from "./utils";
 import { revalidateTag } from "next/cache";
 import { getCachedStore } from "@/app/api/stores/utils";
+import { ApiKeys } from "../../utils";
 
 export async function POST(
   req: Request,
@@ -26,7 +27,12 @@ export async function POST(
       return new NextResponse("storeId is required", { status: 400 });
     }
 
-    const storeByUserId = await getCachedStore(userId, params.storeId);
+    const storeByUserId = await getCachedStore({
+      keys: new Map<ApiKeys, string>([
+        [ApiKeys.UserId, userId],
+        [ApiKeys.StoreId, params.storeId],
+      ]),
+    });
 
     if (!storeByUserId) {
       return new NextResponse("Unathorized", { status: 401 });
@@ -54,7 +60,9 @@ export async function GET(
     if (!params.storeId) {
       return new NextResponse("storeId is required", { status: 400 });
     }
-    const variants = await getCachedVariants(params.storeId);
+    const variants = await getCachedVariants({
+      keys: new Map([[ApiKeys.StoreId, params.storeId]]),
+    });
     return NextResponse.json(variants);
   } catch (e) {
     console.log("variants get", e);

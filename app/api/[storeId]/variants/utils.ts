@@ -1,24 +1,24 @@
 import prismadb from "@/lib/prismadb";
-import { getCached } from "@/app/api/utils";
+import { ApiKeys, getCached, GetCachedOptions } from "@/app/api/utils";
 
-const getVariants = async (storeId: string) =>
+const getVariants = async (options: GetCachedOptions) =>
   await prismadb.variant.findMany({
-    where: { storeId: storeId },
+    where: { storeId: options.keys.get(ApiKeys.StoreId) },
     orderBy: {
       createdAt: "desc",
     },
   });
 
-const getVariant = async (variantId: string) => {
+const getVariant = async (options: GetCachedOptions) => {
   return await prismadb.variant.findFirst({
     where: {
-      id: variantId,
+      id: options.keys.get(ApiKeys.VariantId),
     },
   });
 };
 
-export const getCachedVariant = async (variantId: string) =>
-  getCached(getVariant, "Variant", variantId);
+export const getCachedVariant = async (options: GetCachedOptions) =>
+  getCached(getVariant, options, "Variant");
 
-export const getCachedVariants = async (storeId: string) =>
-  getCached(getVariants, "Variants", storeId);
+export const getCachedVariants = async (options: GetCachedOptions) =>
+  getCached(getVariants, options, "Variants");

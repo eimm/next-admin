@@ -1,23 +1,23 @@
 import prismadb from "@/lib/prismadb";
-import { getCached } from "@/app/api/utils";
+import { ApiKeys, getCached, GetCachedOptions } from "@/app/api/utils";
 
-const getBillboards = async (storeId: string) =>
+const getBillboards = async (options: GetCachedOptions) =>
   await prismadb.billboard.findMany({
-    where: { storeId: storeId },
+    where: { storeId: options.keys.get(ApiKeys.StoreId) },
     orderBy: {
       createdAt: "desc",
     },
   });
 
-const getBillboard = async (billboardId: string) =>
+const getBillboard = async (options: GetCachedOptions) =>
   await prismadb.billboard.findFirst({
     where: {
-      id: billboardId,
+      id: options.keys.get(ApiKeys.BillboardId),
     },
   });
 
-export const getCachedBillboard = async (billboardId: string) =>
-  getCached(getBillboard, "Billboard", billboardId);
+export const getCachedBillboard = async (options: GetCachedOptions) =>
+  getCached(getBillboard, options, "Billboard");
 
-export const getCachedBillboards = async (storeId: string) =>
-  getCached(getBillboards, "Billboards", storeId);
+export const getCachedBillboards = async (options: GetCachedOptions) =>
+  getCached(getBillboards, options, "Billboards");

@@ -123,7 +123,7 @@ export default function BillboardForm({
                   <ImageUpload
                     value={field.value ? [field.value] : []}
                     disabled={isLoading}
-                    onChange={(url) => field.onChange(url)}
+                    onChange={(urls) => field.onChange(urls.pop())}
                     onRemove={() => field.onChange("")}
                   />
                 </FormControl>

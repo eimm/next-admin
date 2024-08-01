@@ -4,6 +4,7 @@ import prismadb from "@/lib/prismadb";
 import { revalidateTag } from "next/cache";
 import { getCachedColour } from "../utils";
 import { getCachedStore } from "@/app/api/stores/utils";
+import { ApiKeys } from "@/app/api/utils";
 
 export async function GET(
   req: Request,
@@ -14,7 +15,9 @@ export async function GET(
       return new NextResponse("colourId is required", { status: 400 });
     }
 
-    const colour = await getCachedColour(params.colourId);
+    const colour = await getCachedColour({
+      keys: new Map([[ApiKeys.ColourId, params.colourId]]),
+    });
 
     return NextResponse.json(colour);
   } catch (e) {
@@ -44,13 +47,18 @@ export async function PATCH(
       return new NextResponse("colourId is required", { status: 400 });
     }
 
-    const storeByUserId = await getCachedStore(userId, params.storeId);
+    const storeByUserId = await getCachedStore({
+      keys: new Map<ApiKeys, string>([
+        [ApiKeys.UserId, userId],
+        [ApiKeys.StoreId, params.storeId],
+      ]),
+    });
 
     if (!storeByUserId) {
       return new NextResponse("Unathorized", { status: 401 });
     }
 
-    const colour = await prismadb.colour.updateMany({
+    const colour = await prismadb.colour.update({
       where: {
         id: params.colourId,
       },
@@ -81,11 +89,16 @@ export async function DELETE(
       return new NextResponse("colourId is required", { status: 400 });
     }
 
-    const storeByUserId = await getCachedStore(userId, params.storeId);
+    const storeByUserId = await getCachedStore({
+      keys: new Map<ApiKeys, string>([
+        [ApiKeys.UserId, userId],
+        [ApiKeys.StoreId, params.storeId],
+      ]),
+    });
     if (!storeByUserId) {
       return new NextResponse("Unathorized", { status: 401 });
     }
-    const colour = await prismadb.colour.deleteMany({
+    const colour = await prismadb.colour.delete({
       where: {
         id: params.colourId,
       },

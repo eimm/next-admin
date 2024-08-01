@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC } from "react";
+import React, { FC, useRef, useState } from "react";
 import Image from "next/image";
 import { CldUploadWidget } from "next-cloudinary";
 import { withEnsureClient } from "./HOCs/withEnsureClient";
@@ -9,7 +9,7 @@ import { TrashIcon, UploadIcon } from "@radix-ui/react-icons";
 
 interface ImageUploadProps extends JSX.IntrinsicAttributes {
   disabled?: boolean;
-  onChange: (value: string) => void;
+  onChange: (value: string[]) => void;
   onRemove: (value: string) => void;
   value: string[];
 }
@@ -20,8 +20,13 @@ const ImageUpload: FC<ImageUploadProps> = ({
   onRemove,
   value,
 }) => {
+  const images = useRef<string[]>(value);
+  const addImage = (url: string) => {
+    images.current.push(url);
+    return images.current;
+  };
   const onUpload = (result: any) => {
-    onChange(result.info.secure_url);
+    onChange(addImage(result.info.secure_url));
   };
   return (
     <div>

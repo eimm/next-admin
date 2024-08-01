@@ -4,6 +4,7 @@ import prismadb from "@/lib/prismadb";
 import { revalidateTag } from "next/cache";
 import { getCachedVariant } from "../utils";
 import { getCachedStore } from "@/app/api/stores/utils";
+import { ApiKeys } from "@/app/api/utils";
 
 export async function GET(
   req: Request,
@@ -14,7 +15,9 @@ export async function GET(
       return new NextResponse("variantId is required", { status: 400 });
     }
 
-    const variant = await getCachedVariant(params.variantId);
+    const variant = await getCachedVariant({
+      keys: new Map([[ApiKeys.VariantId, params.variantId]]),
+    });
 
     return NextResponse.json(variant);
   } catch (e) {
@@ -44,7 +47,12 @@ export async function PATCH(
       return new NextResponse("variantId is required", { status: 400 });
     }
 
-    const storeByUserId = await getCachedStore(userId, params.storeId);
+    const storeByUserId = await getCachedStore({
+      keys: new Map<ApiKeys, string>([
+        [ApiKeys.UserId, userId],
+        [ApiKeys.StoreId, params.storeId],
+      ]),
+    });
 
     if (!storeByUserId) {
       return new NextResponse("Unathorized", { status: 401 });
@@ -81,7 +89,12 @@ export async function DELETE(
       return new NextResponse("variantId is required", { status: 400 });
     }
 
-    const storeByUserId = await getCachedStore(userId, params.storeId);
+    const storeByUserId = await getCachedStore({
+      keys: new Map<ApiKeys, string>([
+        [ApiKeys.UserId, userId],
+        [ApiKeys.StoreId, params.storeId],
+      ]),
+    });
     if (!storeByUserId) {
       return new NextResponse("Unathorized", { status: 401 });
     }

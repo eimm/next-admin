@@ -4,6 +4,7 @@ import prismadb from "@/lib/prismadb";
 import { getCachedBillboard } from "../utils";
 import { revalidateTag } from "next/cache";
 import { getCachedStore } from "@/app/api/stores/utils";
+import { ApiKeys } from "@/app/api/utils";
 
 export async function GET(
   req: Request,
@@ -14,7 +15,9 @@ export async function GET(
       return new NextResponse("billboardId is required", { status: 400 });
     }
 
-    const billboard = getCachedBillboard(params.billboardId);
+    const billboard = await getCachedBillboard({
+      keys: new Map([[ApiKeys.BillboardId, params.billboardId]]),
+    });
 
     return NextResponse.json(billboard);
   } catch (e) {
@@ -44,13 +47,18 @@ export async function PATCH(
       return new NextResponse("billboardId is required", { status: 400 });
     }
 
-    const store = await getCachedStore(userId, params.storeId);
+    const store = await getCachedStore({
+      keys: new Map<ApiKeys, string>([
+        [ApiKeys.UserId, userId],
+        [ApiKeys.StoreId, params.storeId],
+      ]),
+    });
 
     if (!store) {
       return new NextResponse("Unathorized", { status: 401 });
     }
 
-    const billboard = await prismadb.billboard.updateMany({
+    const billboard = await prismadb.billboard.update({
       where: {
         id: params.billboardId,
       },
@@ -81,12 +89,17 @@ export async function DELETE(
       return new NextResponse("billboardId is required", { status: 400 });
     }
 
-    const store = await getCachedStore(userId, params.storeId);
+    const store = await getCachedStore({
+      keys: new Map<ApiKeys, string>([
+        [ApiKeys.UserId, userId],
+        [ApiKeys.StoreId, params.storeId],
+      ]),
+    });
 
     if (!store) {
       return new NextResponse("Unathorized", { status: 401 });
     }
-    const billboard = await prismadb.billboard.deleteMany({
+    const billboard = await prismadb.billboard.delete({
       where: {
         id: params.billboardId,
       },

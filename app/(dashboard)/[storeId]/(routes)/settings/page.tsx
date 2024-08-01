@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import SettingsForm from "./SettingsForm";
 import { getCachedStore } from "@/app/api/stores/utils";
+import { ApiKeys } from "@/app/api/utils";
 
 interface SettingsPageProps {
   params: {
@@ -14,7 +15,12 @@ export default async function SettingsPage({ params }: SettingsPageProps) {
   const { userId } = auth();
   if (!userId) return null;
 
-  const store = await getCachedStore(userId, params.storeId);
+  const store = await getCachedStore({
+    keys: new Map<ApiKeys, string>([
+      [ApiKeys.UserId, userId],
+      [ApiKeys.StoreId, params.storeId],
+    ]),
+  });
 
   if (!store) {
     redirect("/");

@@ -1,0 +1,41 @@
+import prismadb from "@/lib/prismadb";
+import ProductForm from "./ProductForm";
+import { getCachedProduct } from "@/app/api/[storeId]/products/utils";
+import { getCachedCategories } from "@/app/api/[storeId]/categories/utils";
+import { getCachedVariants } from "@/app/api/[storeId]/variants/utils";
+import { getCachedColours } from "@/app/api/[storeId]/colours/utils";
+import { ApiKeys } from "@/app/api/utils";
+
+const ProductPage = async ({
+  params,
+}: {
+  params: { productId: string; storeId: string };
+}) => {
+  const product = await getCachedProduct({
+    keys: new Map([[ApiKeys.ProductId, params.productId]]),
+  });
+  const categories = await getCachedCategories({
+    keys: new Map([[ApiKeys.StoreId, params.storeId]]),
+  });
+  const variants = await getCachedVariants({
+    keys: new Map([[ApiKeys.StoreId, params.storeId]]),
+  });
+  const colours = await getCachedColours({
+    keys: new Map([[ApiKeys.StoreId, params.storeId]]),
+  });
+
+  return (
+    <div className="flex-col">
+      <div className="flex-1 space-y-4 p-8 pt-6">
+        <ProductForm
+          initialData={JSON.parse(JSON.stringify(product))}
+          categories={categories}
+          variants={variants}
+          colours={colours}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default ProductPage;

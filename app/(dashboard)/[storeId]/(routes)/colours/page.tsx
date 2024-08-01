@@ -4,9 +4,12 @@ import prismadb from "@/lib/prismadb";
 import { ColourColumn } from "./Columns";
 import Colours from "./Colours";
 import { getCachedColours } from "@/app/api/[storeId]/colours/utils";
+import { ApiKeys } from "@/app/api/utils";
 
 const ColoursPage = async ({ params }: { params: { storeId: string } }) => {
-  const colours = await getCachedColours(params.storeId);
+  const colours = await getCachedColours({
+    keys: new Map([[ApiKeys.StoreId, params.storeId]]),
+  });
 
   const formatedColours: ColourColumn[] = colours.map((item) => ({
     id: item.id,

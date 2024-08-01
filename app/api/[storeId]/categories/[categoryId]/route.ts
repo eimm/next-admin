@@ -3,6 +3,8 @@ import { auth } from "@clerk/nextjs/server";
 import prismadb from "@/lib/prismadb";
 import { revalidateTag } from "next/cache";
 import { getCachedStore } from "@/app/api/stores/utils";
+import { ApiKeys } from "@/app/api/utils";
+import { getCachedCategory } from "../utils";
 
 export async function GET(
   req: Request,
@@ -13,10 +15,8 @@ export async function GET(
       return new NextResponse("categoryId is required", { status: 400 });
     }
 
-    const category = await prismadb.category.findFirst({
-      where: {
-        id: params.categoryId,
-      },
+    const category = await getCachedCategory({
+      keys: new Map([[ApiKeys.CategoryId, params.categoryId]]),
     });
 
     return NextResponse.json(category);
@@ -47,13 +47,18 @@ export async function PATCH(
       return new NextResponse("categoryId is required", { status: 400 });
     }
 
-    const storeByUserId = await getCachedStore(userId, params.storeId);
+    const storeByUserId = await getCachedStore({
+      keys: new Map<ApiKeys, string>([
+        [ApiKeys.UserId, userId],
+        [ApiKeys.StoreId, params.storeId],
+      ]),
+    });
 
     if (!storeByUserId) {
       return new NextResponse("Unathorized", { status: 401 });
     }
 
-    const category = await prismadb.category.updateMany({
+    const category = await prismadb.category.update({
       where: {
         id: params.categoryId,
       },
@@ -84,12 +89,17 @@ export async function DELETE(
       return new NextResponse("categoryId is required", { status: 400 });
     }
 
-    const storeByUserId = await getCachedStore(userId, params.storeId);
+    const storeByUserId = await getCachedStore({
+      keys: new Map<ApiKeys, string>([
+        [ApiKeys.UserId, userId],
+        [ApiKeys.StoreId, params.storeId],
+      ]),
+    });
 
     if (!storeByUserId) {
       return new NextResponse("Unathorized", { status: 401 });
     }
-    const category = await prismadb.category.deleteMany({
+    const category = await prismadb.category.delete({
       where: {
         id: params.categoryId,
       },
