@@ -17,6 +17,7 @@ model Store {
   variants   Variant[]   @relation("StoreToVariant")
   colours    Colour[]    @relation("StoreToColour")
   products   Product[]   @relation("StoreToProduct")
+  orders     Order[]     @relation("StoreToOrder")
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 }
@@ -67,23 +68,24 @@ model Colour {
 }
 
 model Product {
-  id         String   @id @default(uuid())
-  storeId    String
-  store      Store    @relation("StoreToProduct", fields: [storeId], references: [id])
-  categoryId String
-  category   Category @relation("CategoryToProduct", fields: [categoryId], references: [id])
-  variantId  String
-  variant    Variant  @relation("VariantToProduct", fields: [variantId], references: [id])
-  colourId   String
-  colour     Colour   @relation("ColourToProduct", fields: [colourId], references: [id])
-  name       String
-  price      Decimal
-  quantity   Decimal
-  isFeatured Boolean  @default(false)
-  isArchived Boolean  @default(false)
-  images     Image[]
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id          String      @id @default(uuid())
+  storeId     String
+  store       Store       @relation("StoreToProduct", fields: [storeId], references: [id])
+  categoryId  String
+  category    Category    @relation("CategoryToProduct", fields: [categoryId], references: [id])
+  variantId   String
+  variant     Variant     @relation("VariantToProduct", fields: [variantId], references: [id])
+  colourId    String
+  colour      Colour      @relation("ColourToProduct", fields: [colourId], references: [id])
+  name        String
+  price       Decimal
+  quantity    Decimal
+  isFeatured  Boolean     @default(false)
+  isArchived  Boolean     @default(false)
+  images      Image[]
+  orederItems OrderItem[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 }
 
 model Image {
@@ -93,4 +95,24 @@ model Image {
   url       String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id          String      @id @default(uuid())
+  storeId     String
+  store       Store       @relation("StoreToOrder", fields: [storeId], references: [id])
+  items       OrderItem[]
+  isCompleted Boolean     @default(false)
+  phone       String      @default("")
+  address     String      @default("")
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderID   String
+  order     Order   @relation(fields: [orderID], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
 }

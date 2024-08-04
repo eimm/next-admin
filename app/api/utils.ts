@@ -25,11 +25,7 @@ export const getCached: <TData>(
   const keysArr = Array.from(options.keys.values());
   const getUnstableCache = unstable_cache(
     async (options: GetCachedOptions) => getFunction(options),
-    [
-      `${keyParts}`,
-      ...keysArr,
-      // options.filters ? JSON.stringify(options.filters) : "",
-    ],
+    [`${keyParts}`, ...keysArr],
     {
       tags: [`${keyParts}-${keysArr.join("-")}`],
     }

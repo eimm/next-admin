@@ -43,6 +43,11 @@ export default function Routes({
       active: pathName === `/${params.storeId}/products`,
     },
     {
+      href: `/${params.storeId}/orders`,
+      label: "orders",
+      active: pathName === `/${params.storeId}/orders`,
+    },
+    {
       href: `/${params.storeId}/settings`,
       label: "settings",
       active: pathName === `/${params.storeId}/settings`,
