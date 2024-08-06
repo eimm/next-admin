@@ -12,19 +12,21 @@ export const ApiKeys = {
 
 export type ApiKeys = (typeof ApiKeys)[keyof typeof ApiKeys];
 
-export interface GetCachedOptions {
+export interface GetCachedOptions<TFilter = {}> {
   keys: Map<ApiKeys, string>;
-  filters?: Record<string, string | boolean | undefined>;
+  filters?: TFilter;
 }
 
-export const getCached: <TData>(
-  getFunction: (options: GetCachedOptions) => Promise<TData>,
-  options: GetCachedOptions,
+export const getCached: <TData, TFilter>(
+  getFunction: (options: GetCachedOptions<TFilter>) => Promise<TData>,
+  options: GetCachedOptions<TFilter>,
   keyParts: string
 ) => Promise<TData> = async (getFunction, options, keyParts) => {
   const keysArr = Array.from(options.keys.values());
+  const filters = JSON.stringify(options.filters);
+  console.log(filters);
   const getUnstableCache = unstable_cache(
-    async (options: GetCachedOptions) => getFunction(options),
+    async (options) => getFunction(options),
     [`${keyParts}`, ...keysArr],
     {
       tags: [`${keyParts}-${keysArr.join("-")}`],

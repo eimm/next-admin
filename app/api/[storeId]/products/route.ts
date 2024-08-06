@@ -65,7 +65,9 @@ export async function GET(
       categoryId: searchParams.get("categoryId") || undefined,
       colourId: searchParams.get("colourId") || undefined,
       variantId: searchParams.get("variantId") || undefined,
-      isFeatured: searchParams.get("isFeatured") === "true" || false,
+      isFeatured: searchParams.get("isFeatured")
+        ? searchParams.get("isFeatured") === "true" || false
+        : undefined,
       isArchived: false,
     };
 
