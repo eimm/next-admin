@@ -39,6 +39,9 @@ const getProduct = async (options: GetCachedOptions) => {
     },
     include: {
       images: true,
+      category: true,
+      variant: true,
+      colour: true,
     },
   });
 };

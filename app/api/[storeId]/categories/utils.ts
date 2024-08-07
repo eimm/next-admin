@@ -17,6 +17,9 @@ const getCategory = async (options: GetCachedOptions) =>
     where: {
       id: options.keys.get(ApiKeys.CategoryId),
     },
+    include: {
+      billboard: true,
+    },
   });
 
 export const getCachedCategory = async (options: GetCachedOptions) =>
