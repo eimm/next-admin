@@ -32,7 +32,7 @@ export async function PATCH(
     });
 
     revalidateTag(`Stores-${userId}`);
-    revalidateTag(`Store-${userId}-${params.storeId}`);
+    revalidateTag(`Store-${[userId, params.storeId].sort().join("-")}`);
     return NextResponse.json(store);
   } catch (e) {
     console.log("[STORE_PATCH]", e);

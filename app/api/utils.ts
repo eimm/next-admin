@@ -22,15 +22,16 @@ export const getCached: <TData, TFilter>(
   options: GetCachedOptions<TFilter>,
   keyParts: string
 ) => Promise<TData> = async (getFunction, options, keyParts) => {
-  const keysArr = Array.from(options.keys.values());
-  const filters = JSON.stringify(options.filters);
-  console.log(filters);
+  const keysArr = Array.from(options.keys.values()).sort();
+  const filters = options.filters
+    ? Object.values(options.filters).map((f) => String(f))
+    : [];
   const getUnstableCache = unstable_cache(
-    async (options) => getFunction(options),
-    [`${keyParts}`, ...keysArr],
+    async () => getFunction(options),
+    [`${keyParts}`, ...keysArr, ...filters],
     {
       tags: [`${keyParts}-${keysArr.join("-")}`],
     }
   );
-  return getUnstableCache(options);
+  return getUnstableCache();
 };
