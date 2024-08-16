@@ -47,8 +47,8 @@ const getProduct = async (options: GetCachedOptions) => {
 };
 
 export const getCachedProduct = async (options: GetCachedOptions) =>
-  getCached(getProduct, options, "Product");
+  getCached(getProduct, options, ["Product"]);
 
 export const getCachedProducts = async (
   options: GetCachedOptions<ProductFilters>
-) => getCached(getProducts, options, "Products");
+) => getCached(getProducts, options, ["Products"]);

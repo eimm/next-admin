@@ -5,6 +5,7 @@ import "./globals.css";
 import { Button } from "@/components/ui/button";
 import StoreModal from "@/components/modals/StoreModal";
 import { ToastProvider } from "@/components/toast/ToastProvider";
+import { ThemeProvider } from "@/components/Theme";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,17 +23,17 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-          <header>
-            {/* <SignedIn>
-              <Button>
-                <UserButton />
-              </Button>
-            </SignedIn> */}
-          </header>
           <main>
             <ToastProvider />
             <StoreModal />
-            {children}
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
           </main>
         </body>
       </html>

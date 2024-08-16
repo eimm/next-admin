@@ -3,6 +3,7 @@ import Routes from "./Routes";
 import StoresSelect from "./StoresSelect";
 import { auth } from "@clerk/nextjs/server";
 import prismadb from "@/lib/prismadb";
+import { ModeToggle } from "./ModeToggle";
 
 export default async function Navigation() {
   const { userId } = auth();
@@ -20,6 +21,7 @@ export default async function Navigation() {
         <StoresSelect items={stores} />
         <Routes className="mx-6" />
         <div className="ml-auto flex items-center space-x-4">
+          <ModeToggle />
           <UserButton />
         </div>
       </div>

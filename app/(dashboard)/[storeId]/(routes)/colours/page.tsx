@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import { format } from "date-fns";
-import prismadb from "@/lib/prismadb";
 import { ColourColumn } from "./Columns";
 import Colours from "./Colours";
 import { getCachedColours } from "@/app/api/[storeId]/colours/utils";

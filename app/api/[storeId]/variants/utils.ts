@@ -18,7 +18,7 @@ const getVariant = async (options: GetCachedOptions) => {
 };
 
 export const getCachedVariant = async (options: GetCachedOptions) =>
-  getCached(getVariant, options, "Variant");
+  getCached(getVariant, options, ["Variant"]);
 
 export const getCachedVariants = async (options: GetCachedOptions) =>
-  getCached(getVariants, options, "Variants");
+  getCached(getVariants, options, ["Variants"]);

@@ -23,7 +23,7 @@ const getCategory = async (options: GetCachedOptions) =>
   });
 
 export const getCachedCategory = async (options: GetCachedOptions) =>
-  getCached(getCategory, options, "Category");
+  getCached(getCategory, options, ["Category"]);
 
 export const getCachedCategories = async (options: GetCachedOptions) =>
-  getCached(getCategories, options, "Categories");
+  getCached(getCategories, options, ["Categories"]);

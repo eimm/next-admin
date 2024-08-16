@@ -18,7 +18,7 @@ const getColour = async (options: GetCachedOptions) => {
 };
 
 export const getCachedColour = async (options: GetCachedOptions) =>
-  getCached(getColour, options, "Colour");
+  getCached(getColour, options, ["Colour"]);
 
 export const getCachedColours = async (options: GetCachedOptions) =>
-  getCached(getColours, options, "Colours");
+  getCached(getColours, options, ["Colours"]);

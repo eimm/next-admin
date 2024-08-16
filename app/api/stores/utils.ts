@@ -23,7 +23,7 @@ const getStore = async (options: GetCachedOptions) =>
       });
 
 export const getCachedStore = async (options: GetCachedOptions) =>
-  getCached(getStore, options, "Store");
+  getCached(getStore, options, ["Store"]);
 
 export const getCachedStores = async (options: GetCachedOptions) =>
-  getCached(getStores, options, "Stores");
+  getCached(getStores, options, ["Stores"]);

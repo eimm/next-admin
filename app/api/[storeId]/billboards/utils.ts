@@ -17,7 +17,7 @@ const getBillboard = async (options: GetCachedOptions) =>
   });
 
 export const getCachedBillboard = async (options: GetCachedOptions) =>
-  getCached(getBillboard, options, "Billboard");
+  getCached(getBillboard, options, ["Billboard"]);
 
 export const getCachedBillboards = async (options: GetCachedOptions) =>
-  getCached(getBillboards, options, "Billboards");
+  getCached(getBillboards, options, ["Billboards"]);
