@@ -1,11 +1,13 @@
-import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import prismadb from "@/lib/prismadb";
-import { getCachedProduct } from "../utils";
 import { revalidateTag } from "next/cache";
-import { getCachedStore } from "@/app/api/stores/utils";
+import { NextResponse } from "next/server";
+
 import { ProductFormSchema } from "@/app/(dashboard)/[storeId]/(routes)/products/[productId]/ProductForm";
+import { getCachedStore } from "@/app/api/stores/utils";
 import { ApiKeys } from "@/app/api/utils";
+import prismadb from "@/lib/prismadb";
+
+import { getCachedProduct } from "../utils";
 
 export async function GET(
   req: Request,

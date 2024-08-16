@@ -1,11 +1,12 @@
 "use client";
 
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useRef } from "react";
+import { TrashIcon, UploadIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { CldUploadWidget } from "next-cloudinary";
+
 import { withEnsureClient } from "./HOCs/withEnsureClient";
 import { Button } from "./ui/button";
-import { TrashIcon, UploadIcon } from "@radix-ui/react-icons";
 
 interface ImageUploadProps extends JSX.IntrinsicAttributes {
   disabled?: boolean;

@@ -1,8 +1,9 @@
 "use client";
 
-import { GraphData } from "@/app/(dashboard)/[storeId]/(routes)/actions";
 import React, { FC } from "react";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+
+import { GraphData } from "@/app/(dashboard)/[storeId]/(routes)/actions";
 
 interface GraphsProps {
   data: GraphData[];

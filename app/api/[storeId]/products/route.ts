@@ -1,11 +1,14 @@
-import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import prismadb from "@/lib/prismadb";
-import { ProductFormSchema } from "@/app/(dashboard)/[storeId]/(routes)/products/[productId]/ProductForm";
-import { getCachedProducts } from "./utils";
 import { revalidateTag } from "next/cache";
+import { NextResponse } from "next/server";
+
+import { ProductFormSchema } from "@/app/(dashboard)/[storeId]/(routes)/products/[productId]/ProductForm";
 import { getCachedStore } from "@/app/api/stores/utils";
+import prismadb from "@/lib/prismadb";
+
 import { ApiKeys } from "../../utils";
+
+import { getCachedProducts } from "./utils";
 
 export async function POST(
   req: Request,

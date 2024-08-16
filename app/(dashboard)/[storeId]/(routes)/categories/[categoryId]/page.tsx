@@ -1,7 +1,8 @@
-import CategoryForm from "./CategoryForm";
-import { getCachedCategory } from "@/app/api/[storeId]/categories/utils";
 import { getCachedBillboards } from "@/app/api/[storeId]/billboards/utils";
+import { getCachedCategory } from "@/app/api/[storeId]/categories/utils";
 import { ApiKeys } from "@/app/api/utils";
+
+import CategoryForm from "./CategoryForm";
 
 const CategoryPage = async ({
   params,

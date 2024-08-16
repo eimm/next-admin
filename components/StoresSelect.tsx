@@ -1,28 +1,29 @@
 "use client";
 
-import { Store } from "@prisma/client";
-import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
+import { Store } from "@prisma/client";
 import {
   ArchiveIcon,
   CaretDownIcon,
   CheckIcon,
   PlusIcon,
 } from "@radix-ui/react-icons";
+import { useParams, useRouter } from "next/navigation";
 
-import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
 import { useStoreModal } from "@/hooks/useStoreModal";
-import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
+
+import { Button } from "./ui/button";
 import {
   Command,
+  CommandEmpty,
+  CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-  CommandGroup,
-  CommandEmpty,
   CommandSeparator,
 } from "./ui/command";
+import { Popover, PopoverContent,PopoverTrigger } from "./ui/popover";
 
 type PopoverTriggerProps = React.ComponentProps<typeof PopoverTrigger>;
 

@@ -1,10 +1,10 @@
-import prismadb from "@/lib/prismadb";
-import ProductForm from "./ProductForm";
-import { getCachedProduct } from "@/app/api/[storeId]/products/utils";
 import { getCachedCategories } from "@/app/api/[storeId]/categories/utils";
-import { getCachedVariants } from "@/app/api/[storeId]/variants/utils";
 import { getCachedColours } from "@/app/api/[storeId]/colours/utils";
+import { getCachedProduct } from "@/app/api/[storeId]/products/utils";
+import { getCachedVariants } from "@/app/api/[storeId]/variants/utils";
 import { ApiKeys } from "@/app/api/utils";
+
+import ProductForm from "./ProductForm";
 
 const ProductPage = async ({
   params,

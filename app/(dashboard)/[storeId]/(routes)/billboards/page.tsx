@@ -1,9 +1,11 @@
-import React, { FC } from "react";
+import React from "react";
 import { format } from "date-fns";
-import { BillboardColumn } from "./Columns";
+
 import { getCachedBillboards } from "@/app/api/[storeId]/billboards/utils";
-import Billboards from "./Billboards";
 import { ApiKeys } from "@/app/api/utils";
+
+import Billboards from "./Billboards";
+import { BillboardColumn } from "./Columns";
 
 const BillboardsPage = async ({ params }: { params: { storeId: string } }) => {
   const billboards = await getCachedBillboards({

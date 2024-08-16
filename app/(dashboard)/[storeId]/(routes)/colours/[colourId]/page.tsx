@@ -1,6 +1,7 @@
-import { ApiKeys } from "@/app/api/utils";
-import ColourForm from "./ColourForm";
 import { getCachedColour } from "@/app/api/[storeId]/colours/utils";
+import { ApiKeys } from "@/app/api/utils";
+
+import ColourForm from "./ColourForm";
 
 const ColourPage = async ({ params }: { params: { colourId: string } }) => {
   const colour = await getCachedColour({

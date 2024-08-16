@@ -1,22 +1,23 @@
 import React, { FC, useState } from "react";
 import toast from "react-hot-toast";
-import { useParams, useRouter } from "next/navigation";
-import axios from "axios";
 import {
   CaretDownIcon,
   ClipboardCopyIcon,
   MagicWandIcon,
   TrashIcon,
 } from "@radix-ui/react-icons";
+import axios from "axios";
+import { useParams, useRouter } from "next/navigation";
+
+import AlertModal from "@/components/modals/AlertModal";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuLabel,
   DropdownMenuContent,
-  DropdownMenuTrigger,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import AlertModal from "@/components/modals/AlertModal";
 
 import { ProductColumn } from "./Columns";
 

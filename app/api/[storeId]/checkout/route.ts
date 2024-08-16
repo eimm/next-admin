@@ -1,10 +1,11 @@
-import Stripe from "stripe";
-import { NextResponse } from "next/server";
-
-import { stripe } from "@/lib/stripe";
-import prismadb from "@/lib/prismadb";
-import { getCachedProductsById } from "./utils";
 import { revalidateTag } from "next/cache";
+import { NextResponse } from "next/server";
+import Stripe from "stripe";
+
+import prismadb from "@/lib/prismadb";
+import { stripe } from "@/lib/stripe";
+
+import { getCachedProductsById } from "./utils";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",

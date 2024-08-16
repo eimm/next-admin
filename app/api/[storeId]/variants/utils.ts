@@ -1,5 +1,5 @@
-import prismadb from "@/lib/prismadb";
 import { ApiKeys, getCached, GetCachedOptions } from "@/app/api/utils";
+import prismadb from "@/lib/prismadb";
 
 const getVariants = async (options: GetCachedOptions) =>
   await prismadb.variant.findMany({

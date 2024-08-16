@@ -1,7 +1,8 @@
-import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs/server";
 import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
+
+import prismadb from "@/lib/prismadb";
 
 export async function PATCH(
   req: Request,

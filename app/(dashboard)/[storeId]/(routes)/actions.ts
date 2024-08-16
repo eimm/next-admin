@@ -1,4 +1,5 @@
 import { format, getUnixTime } from "date-fns";
+
 import { getCachedCompletedOrders } from "@/app/api/[storeId]/orders/utils";
 import { getCachedProducts } from "@/app/api/[storeId]/products/utils";
 import { ApiKeys } from "@/app/api/utils";
@@ -21,7 +22,7 @@ export async function getSold(storeId: string) {
   });
 
   return paidOrders.reduce(
-    (acc, o) => acc + o.items.reduce((acc, i) => (acc += 1), 0),
+    (acc, o) => acc + o.items.reduce((acc) => (acc += 1), 0),
     0
   );
 }

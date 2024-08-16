@@ -1,10 +1,12 @@
-import React, { FC } from "react";
+import React from "react";
 import { format } from "date-fns";
-import { ProductColumn } from "./Columns";
+
 import { getCachedProducts } from "@/app/api/[storeId]/products/utils";
-import Products from "./Products";
-import { formatter } from "@/lib/utils";
 import { ApiKeys } from "@/app/api/utils";
+import { formatter } from "@/lib/utils";
+
+import { ProductColumn } from "./Columns";
+import Products from "./Products";
 
 const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
   const products = await getCachedProducts({

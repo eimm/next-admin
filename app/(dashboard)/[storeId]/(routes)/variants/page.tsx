@@ -1,10 +1,11 @@
-import React, { FC } from "react";
+import React from "react";
 import { format } from "date-fns";
-import prismadb from "@/lib/prismadb";
-import { VariantColumn } from "./Columns";
-import Variants from "./Variants";
+
 import { getCachedVariants } from "@/app/api/[storeId]/variants/utils";
 import { ApiKeys } from "@/app/api/utils";
+
+import { VariantColumn } from "./Columns";
+import Variants from "./Variants";
 
 const VariantsPage = async ({ params }: { params: { storeId: string } }) => {
   const variants = await getCachedVariants({

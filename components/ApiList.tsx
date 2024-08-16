@@ -1,7 +1,9 @@
 "use client";
-import { useOrigin } from "@/hooks/useOrigin";
-import { useParams } from "next/navigation";
 import React, { FC } from "react";
+import { useParams } from "next/navigation";
+
+import { useOrigin } from "@/hooks/useOrigin";
+
 import { ApiAlert } from "./ApiAlert";
 
 interface ApiListProps {

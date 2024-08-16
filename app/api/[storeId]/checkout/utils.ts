@@ -1,6 +1,6 @@
-import prismadb from "@/lib/prismadb";
-import { ApiKeys, GetCachedOptions } from "../../utils";
 import { unstable_cache } from "next/cache";
+
+import prismadb from "@/lib/prismadb";
 
 const getProductsById = async (ids: string[]) => {
   return await prismadb.product.findMany({

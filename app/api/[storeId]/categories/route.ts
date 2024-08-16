@@ -1,10 +1,13 @@
-import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import prismadb from "@/lib/prismadb";
-import { getCachedCategories } from "./utils";
 import { revalidateTag } from "next/cache";
+import { NextResponse } from "next/server";
+
 import { getCachedStore } from "@/app/api/stores/utils";
+import prismadb from "@/lib/prismadb";
+
 import { ApiKeys } from "../../utils";
+
+import { getCachedCategories } from "./utils";
 
 export async function POST(
   req: Request,

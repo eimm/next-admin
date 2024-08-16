@@ -1,11 +1,12 @@
+import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
-import { ClerkProvider, SignedIn, UserButton } from "@clerk/nextjs";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import { Button } from "@/components/ui/button";
+
 import StoreModal from "@/components/modals/StoreModal";
-import { ToastProvider } from "@/components/toast/ToastProvider";
 import { ThemeProvider } from "@/components/Theme";
+import { ToastProvider } from "@/components/toast/ToastProvider";
+
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+
 import { useStoreModal } from "@/hooks/useStoreModal";
 
 export default function EmptyPage() {

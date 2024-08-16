@@ -1,12 +1,12 @@
 "use client";
 
-import * as z from "zod";
-import axios from "axios";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import * as z from "zod";
 
-import { Modal } from "@/components/ui/modal";
-import { useStoreModal } from "@/hooks/useStoreModal";
 import { withEnsureClient } from "@/components/HOCs/withEnsureClient";
 import {
   Form,
@@ -16,11 +16,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "../ui/input";
+import { Modal } from "@/components/ui/modal";
+import { useStoreModal } from "@/hooks/useStoreModal";
+
 import { Button } from "../ui/button";
-import { useState } from "react";
-import toast from "react-hot-toast";
-import { redirect } from "next/navigation";
+import { Input } from "../ui/input";
 
 const formSchema = z.object({
   name: z.string().min(1),

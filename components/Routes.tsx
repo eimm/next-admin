@@ -1,12 +1,12 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 
+import { cn } from "@/lib/utils";
+
 export default function Routes({
   className,
-  ...props
 }: React.HtmlHTMLAttributes<HTMLElement>) {
   const pathName = usePathname();
   const params = useParams<{ storeId: string }>();

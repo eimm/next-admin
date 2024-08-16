@@ -1,9 +1,11 @@
-import React, { FC } from "react";
+import React from "react";
 import { format } from "date-fns";
-import { ColourColumn } from "./Columns";
-import Colours from "./Colours";
+
 import { getCachedColours } from "@/app/api/[storeId]/colours/utils";
 import { ApiKeys } from "@/app/api/utils";
+
+import Colours from "./Colours";
+import { ColourColumn } from "./Columns";
 
 const ColoursPage = async ({ params }: { params: { storeId: string } }) => {
   const colours = await getCachedColours({

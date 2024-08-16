@@ -1,14 +1,16 @@
 "use client";
 
+import React, { FC } from "react";
+import { PlusIcon } from "@radix-ui/react-icons";
+import { useParams, useRouter } from "next/navigation";
+
+import ApiList from "@/components/ApiList";
+import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
 import Heading from "@/components/ui/heading";
-import { PlusIcon } from "@radix-ui/react-icons";
-import React, { FC } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { ProductColumn, columns } from "./Columns";
-import { DataTable } from "@/components/DataTable";
 import { Separator } from "@/components/ui/separator";
-import ApiList from "@/components/ApiList";
+
+import { columns,ProductColumn } from "./Columns";
 
 interface ProductsProps {
   products: ProductColumn[];

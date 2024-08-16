@@ -1,9 +1,10 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
-import SettingsForm from "./SettingsForm";
 import { getCachedStore } from "@/app/api/stores/utils";
 import { ApiKeys } from "@/app/api/utils";
+
+import SettingsForm from "./SettingsForm";
 
 interface SettingsPageProps {
   params: {

@@ -1,8 +1,10 @@
 "use client";
 
-import React, { ComponentType, FC } from "react";
+import React, { FC } from "react";
+
 import { withEnsureClient } from "@/components/HOCs/withEnsureClient";
 import { Modal } from "@/components/ui/modal";
+
 import { Button } from "../ui/button";
 
 interface AlertModalProps extends React.JSX.IntrinsicAttributes {

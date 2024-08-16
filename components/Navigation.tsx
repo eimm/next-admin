@@ -1,9 +1,11 @@
 import { UserButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
+
+import prismadb from "@/lib/prismadb";
+
+import { ModeToggle } from "./ModeToggle";
 import Routes from "./Routes";
 import StoresSelect from "./StoresSelect";
-import { auth } from "@clerk/nextjs/server";
-import prismadb from "@/lib/prismadb";
-import { ModeToggle } from "./ModeToggle";
 
 export default async function Navigation() {
   const { userId } = auth();

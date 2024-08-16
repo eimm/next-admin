@@ -1,13 +1,13 @@
-import { getCachedStore } from "@/app/api/stores/utils";
-import { ApiKeys } from "@/app/api/utils";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Heading from "@/components/ui/heading";
-import { formatter } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
 import { ArchiveIcon, CookieIcon, RocketIcon } from "@radix-ui/react-icons";
 import { Separator } from "@radix-ui/react-separator";
-import { getGraphData, getIncome, getSold, getStock } from "./actions";
+
 import Graphs from "@/components/Graphs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Heading from "@/components/ui/heading";
+import { formatter } from "@/lib/utils";
+
+import { getGraphData, getIncome, getSold, getStock } from "./actions";
 
 export default async function DashboardPage({
   params,
@@ -16,12 +16,7 @@ export default async function DashboardPage({
 }) {
   const { userId }: { userId: string | null } = auth();
   if (!userId) return null;
-  const store = await getCachedStore({
-    keys: new Map<ApiKeys, string>([
-      [ApiKeys.UserId, userId],
-      [ApiKeys.StoreId, params.storeId],
-    ]),
-  });
+
   const income = await getIncome(params.storeId);
   const inStock = await getStock(params.storeId);
   const sold = await getSold(params.storeId);

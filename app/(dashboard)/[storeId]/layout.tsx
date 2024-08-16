@@ -1,9 +1,9 @@
-import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import Navigation from "@/components/Navigation";
+
 import { getCachedStore } from "@/app/api/stores/utils";
 import { ApiKeys } from "@/app/api/utils";
+import Navigation from "@/components/Navigation";
 
 export default async function DashboardLayout({
   children,

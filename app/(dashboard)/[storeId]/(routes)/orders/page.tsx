@@ -1,10 +1,12 @@
-import React, { FC } from "react";
+import React from "react";
 import { format } from "date-fns";
-import { OrderColumn } from "./Columns";
+
 import { getCachedOrders } from "@/app/api/[storeId]/orders/utils";
-import Orders from "./Orders";
 import { ApiKeys } from "@/app/api/utils";
 import { formatter } from "@/lib/utils";
+
+import { OrderColumn } from "./Columns";
+import Orders from "./Orders";
 
 const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
   const orders = await getCachedOrders({

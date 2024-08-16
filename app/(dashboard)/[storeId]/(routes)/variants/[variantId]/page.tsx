@@ -1,6 +1,7 @@
-import { ApiKeys } from "@/app/api/utils";
-import VariantForm from "./VariantForm";
 import { getCachedVariant } from "@/app/api/[storeId]/variants/utils";
+import { ApiKeys } from "@/app/api/utils";
+
+import VariantForm from "./VariantForm";
 
 const VariantPage = async ({ params }: { params: { variantId: string } }) => {
   const variant = await getCachedVariant({

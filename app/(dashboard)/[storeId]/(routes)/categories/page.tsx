@@ -1,9 +1,11 @@
-import React, { FC } from "react";
+import React from "react";
 import { format } from "date-fns";
-import { CategoryColumn } from "./Columns";
-import Categories from "./Categories";
+
 import { getCachedCategories } from "@/app/api/[storeId]/categories/utils";
 import { ApiKeys } from "@/app/api/utils";
+
+import Categories from "./Categories";
+import { CategoryColumn } from "./Columns";
 
 const CategoriesPage = async ({ params }: { params: { storeId: string } }) => {
   const categories = await getCachedCategories({
