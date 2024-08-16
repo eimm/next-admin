@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 export function withEnsureClient<T extends React.JSX.IntrinsicAttributes>(
   Component: React.ComponentType<T>
 ) {
-  return (props: T) => {
+  return function ComponentEnsuredClient(props: T) {
     const [isMounted, setIsmounted] = useState(false);
     useEffect(() => {
       setIsmounted(true);
